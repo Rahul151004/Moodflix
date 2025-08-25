@@ -154,3 +154,242 @@
     display: none;
   }
 }
+
+/* --- Pagination Styles --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  gap: 1rem;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: #374151; /* Gray 700 */
+  color: #f9fafb; /* Gray 50 */
+  border: 1px solid #4b5563; /* Gray 600 */
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #4b5563; /* Gray 600 */
+}
+
+.pagination-btn:disabled {
+  background-color: #1f2937; /* Gray 800 */
+  color: #6b7280; /* Gray 500 */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.page-info {
+  color: #d1d5db; /* Gray 300 */
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* --- Back to Top Button Styles --- */
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.top-btn {
+  background-color: rgba(79, 70, 229, 0.8); /* Indigo with transparency */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+  backdrop-filter: blur(5px);
+}
+
+.top-btn:hover {
+  background-color: #4338ca; /* Darker Indigo */
+  transform: scale(1.1);
+}
+
+/* --- Clickable Movie Card --- */
+.movie-card-button {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 1rem; /* Match the card's border-radius */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.movie-card-button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px rgba(171, 139, 255, 0.2);
+}
+
+
+/* --- Movie Details Modal Styles --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background-color: #0f0d23;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(206, 206, 251, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-header {
+  position: relative;
+  height: 300px;
+}
+
+.backdrop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.header-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, #0f0d23 10%, transparent 90%);
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  margin-top: -150px; /* Pull the content up over the backdrop */
+  position: relative;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .modal-body {
+    flex-direction: row;
+  }
+}
+
+.modal-poster {
+  width: 180px;
+  min-width: 180px;
+  height: 270px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
+}
+
+.movie-info h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.movie-info .tagline {
+  font-style: italic;
+  color: #a8b5db;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  color: #cecefb;
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.stat-item img {
+  width: 20px;
+  height: 20px;
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.genre-tag {
+  background-color: rgba(206, 206, 251, 0.1);
+  color: #cecefb;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.movie-info h3 {
+  margin-top: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.movie-info .overview {
+  margin-top: 0.5rem;
+  color: #a8b5db;
+  line-height: 1.6;
+}

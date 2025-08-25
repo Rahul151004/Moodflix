@@ -2,6 +2,9 @@ import React, { use, useEffect, useState } from 'react'
 import Search from './components/Search'
 import Spinner from './components/Spinner'
 import MovieCard from './components/MovieCard'
+import BackToTopButton from './components/BackToTopButton'
+import Pagination from './components/Pagination'
+import MovieDetails from './components/MovieDetails'
 import { useDebounce } from 'react-use'
 import { getTrendingMovies, updateSearchCount } from './api/movies'
 
@@ -31,6 +34,12 @@ const App = () => {
   const [trendingError, setTrendingError] = useState('');
   const [isTrendingLoading, setIsTrendingLoading] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isModalLoading, setIsModalLoading] = useState(false);
+
   // Debounce the search term to limit API calls
   // by waiting for the user to stop typing for 500ms
   useDebounce(() => setDebouncedSearchTerm(searchTerm), 1000, [searchTerm]);
@@ -41,8 +50,8 @@ const App = () => {
 
     try {
       const endpoint = query
-      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&page=${currentPage}`
+      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${currentPage}`;
       
       const response = await fetch(endpoint, API_OPTIONS);
 
@@ -59,6 +68,9 @@ const App = () => {
       }
 
       setMovieList(data.results || []);
+
+      setTotalPages(data.total_pages > 500 ? 500 : data.total_pages);
+
       if(query && data.results.length > 0){
         await updateSearchCount(query, data.results[0]);
       }
@@ -84,18 +96,45 @@ const App = () => {
     }
   }
 
+  const handleMovieSelect = async (movieId) => {
+    setIsModalLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/movie/${movieId}`, API_OPTIONS);
+      if (!response.ok) throw new Error('Failed to fetch movie details.');
+      const movieDetails = await response.json();
+      setSelectedMovie(movieDetails);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsModalLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setSelectedMovie(null);
+  };
+
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, currentPage]);
 
   useEffect(() => {
     loadTrendingMovies();
   }, [])
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchTerm]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  };
+
   return (
     <main>
       <div className='pattern' /> 
-
+      <BackToTopButton />
       <div className='wrapper'>
         <header>
           <img src="./hero.png" alt="Hero Banner" />
@@ -118,6 +157,8 @@ const App = () => {
 
               }
             </ul>
+
+            
           </section>
         )}
       
@@ -129,16 +170,28 @@ const App = () => {
           ) : errorMessage ? (
             <p className='text-red-500'>{errorMessage}</p>
           ) : (
+            <>
             <ul>
               {movieList.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard key={movie.id} movie={movie} onMovieSelect={handleMovieSelect} />
               ))}
             </ul>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange} 
+              />
+              </>
           )}
         </section>
 
       </div>
 
+      {isModalLoading && <Spinner />}
+      {selectedMovie && !isModalLoading && (
+        <MovieDetails movie={selectedMovie} onClose={handleCloseModal} />
+      )}
     </main>
   )
 }
