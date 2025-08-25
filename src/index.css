@@ -154,7 +154,10 @@
     display: none;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 0269d89 (Pagination added)
 }
 
 /* --- Pagination Styles --- */
@@ -394,5 +397,4 @@
   margin-top: 0.5rem;
   color: #a8b5db;
   line-height: 1.6;
->>>>>>> 0269d89bfc4934895e78a0ad67892961edbee4ad
 }
