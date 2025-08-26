@@ -26,7 +26,7 @@ Follow these instructions to get a local copy of Moodflix up and running on your
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/your-username/moodflix.git](https://github.com/your-username/moodflix.git)
+    git clone https://github.com/Rahul151004/moodflix.git
     cd moodflix
     ```
 
